@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apple - Sitio Oficial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+
+      .hero-gradient {
+        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+      }
+
+      .product-gradient {
+        background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 100%);
+      }
+
+      .nav-blur {
+        backdrop-filter: saturate(180%) blur(20px);
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      .product-card {
+        transition: transform 0.3s ease;
+      }
+
+      .product-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .footer-links a:hover {
+        text-decoration: underline;
+      }
+
+      .apple-video {
+        width: 100%;
+        height: 600px;
+        object-fit: cover;
+      }
+
+      @media (max-width: 768px) {
+        .apple-video {
+          height: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-white text-gray-900">
+    <!-- Navegación -->
+    <nav class="nav-blur fixed w-full z-50 py-3">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center space-x-6">
+            <a href="#" class="text-white text-xl font-semibold">
+              <i class="fab fa-apple"></i>
+            </a>
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white text-sm hidden md:block"
+              >Tienda</a
+            >
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white text-sm hidden md:block"
+              >Mac</a
+            >
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white text-sm hidden md:block"
+              >iPad</a
+            >
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white text-sm hidden md:block"
+              >iPhone</a
+            >
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white text-sm hidden md:block"
+              >Watch</a
+            >
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white text-sm hidden md:block"
+              >AirPods</a
+            >
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white text-sm hidden md:block"
+              >TV y Casa</a
+            >
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white text-sm hidden md:block"
+              >Entretenimiento</a
+            >
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white text-sm hidden md:block"
+              >Accesorios</a
+            >
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white text-sm hidden md:block"
+              >Soporte</a
+            >
+          </div>
+          <div class="flex items-center space-x-4">
+            <a href="#" class="text-gray-300 hover:text-white">
+              <i class="fas fa-search"></i>
+            </a>
+            <a href="#" class="text-gray-300 hover:text-white">
+              <i class="fas fa-shopping-bag"></i>
+            </a>
+            <button
+              id="mobile-menu-button"
+              class="text-gray-300 hover:text-white md:hidden"
+            >
+              <i class="fas fa-bars"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Menú móvil -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black z-40 hidden md:hidden">
+      <div class="flex flex-col items-center justify-center h-full space-y-8">
+        <a href="#" class="text-white text-xl">Tienda</a>
+        <a href="#" class="text-white text-xl">Mac</a>
+        <a href="#" class="text-white text-xl">iPad</a>
+        <a href="#" class="text-white text-xl">iPhone</a>
+        <a href="#" class="text-white text-xl">Watch</a>
+        <a href="#" class="text-white text-xl">AirPods</a>
+        <a href="#" class="text-white text-xl">TV y Casa</a>
+        <a href="#" class="text-white text-xl">Entretenimiento</a>
+        <a href="#" class="text-white text-xl">Accesorios</a>
+        <a href="#" class="text-white text-xl">Soporte</a>
+        <button
+          id="close-mobile-menu"
+          class="absolute top-6 right-6 text-white text-2xl"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient pt-16 pb-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center py-16">
+          <h1 class="text-5xl md:text-6xl font-bold text-white mb-4">
+            iPhone 15 Pro
+          </h1>
+          <p class="text-2xl md:text-3xl text-gray-300 mb-8">Pro. Más allá.</p>
+          <div class="flex justify-center space-x-4">
+            <a href="#" class="text-blue-500 hover:text-blue-400 text-lg"
+              >Más información ></a
+            >
+            <a href="#" class="text-blue-500 hover:text-blue-400 text-lg"
+              >Comprar ></a
+            >
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <img
+            src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-7inch-naturaltitanium?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1692846359318"
+            alt="iPhone 15 Pro"
+            class="w-full max-w-4xl rounded-2xl"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Productos destacados -->
+    <section class="py-16 product-gradient">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-4xl font-bold text-center mb-12">Lo último de Apple</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Producto 1 -->
+          <div
+            class="product-card bg-white rounded-2xl shadow-lg overflow-hidden"
+          >
+            <div class="p-6">
+              <h3 class="text-2xl font-semibold mb-2">Apple Watch Series 9</h3>
+              <p class="text-gray-600 mb-4">Brillante. Y muy poderoso.</p>
+              <div class="flex justify-center mb-4">
+                <img
+                  src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-card-40-ultra2-202309?wid=680&hei=656&fmt=p-jpg&qlt=95&.v=1693063652544"
+                  alt="Apple Watch"
+                  class="h-48 object-contain"
+                />
+              </div>
+              <div class="flex justify-between">
+                <a href="#" class="text-blue-500 hover:text-blue-400"
+                  >Más información ></a
+                >
+                <a href="#" class="text-blue-500 hover:text-blue-400"
+                  >Comprar ></a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Producto 2 -->
+          <div
+            class="product-card bg-white rounded-2xl shadow-lg overflow-hidden"
+          >
+            <div class="p-6">
+              <h3 class="text-2xl font-semibold mb-2">MacBook Air</h3>
+              <p class="text-gray-600 mb-4">Imponente con el chip M2.</p>
+              <div class="flex justify-center mb-4">
+                <img
+                  src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mac-card-40-macbook-air-202306?wid=680&hei=656&fmt=p-jpg&qlt=95&.v=1683844838920"
+                  alt="MacBook Air"
+                  class="h-48 object-contain"
+                />
+              </div>
+              <div class="flex justify-between">
+                <a href="#" class="text-blue-500 hover:text-blue-400"
+                  >Más información ></a
+                >
+                <a href="#" class="text-blue-500 hover:text-blue-400"
+                  >Comprar ></a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Producto 3 -->
+          <div
+            class="product-card bg-white rounded-2xl shadow-lg overflow-hidden"
+          >
+            <div class="p-6">
+              <h3 class="text-2xl font-semibold mb-2">iPad Pro</h3>
+              <p class="text-gray-600 mb-4">Superpotenciado con el chip M2.</p>
+              <div class="flex justify-center mb-4">
+                <img
+                  src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-card-40-pro-202210?wid=680&hei=656&fmt=p-jpg&qlt=95&.v=1664577333104"
+                  alt="iPad Pro"
+                  class="h-48 object-contain"
+                />
+              </div>
+              <div class="flex justify-between">
+                <a href="#" class="text-blue-500 hover:text-blue-400"
+                  >Más información ></a
+                >
+                <a href="#" class="text-blue-500 hover:text-blue-400"
+                  >Comprar ></a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de servicios -->
+    <section class="py-16 bg-gray-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-4xl font-bold text-center mb-12">Servicios Apple</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-white rounded-xl p-6 text-center shadow-md">
+            <div
+              class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-music text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Apple Music</h3>
+            <p class="text-gray-600">Millones de canciones. Sin anuncios.</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 text-center shadow-md">
+            <div
+              class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-tv text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Apple TV+</h3>
+            <p class="text-gray-600">Historias originales increíbles.</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 text-center shadow-md">
+            <div
+              class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-gamepad text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Apple Arcade</h3>
+            <p class="text-gray-600">Más de 200 juegos sin anuncios.</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 text-center shadow-md">
+            <div
+              class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-cloud text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">iCloud</h3>
+            <p class="text-gray-600">
+              El lugar seguro para tus fotos y archivos.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de accesorios -->
+    <section class="py-16 bg-black text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-4xl font-bold text-center mb-12">Accesorios</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="flex flex-col justify-center">
+            <h3 class="text-3xl font-semibold mb-4">AirPods Pro</h3>
+            <p class="text-xl text-gray-300 mb-6">
+              Cancelación activa de ruido. Sonido de calidad.
+            </p>
+            <div class="flex space-x-4">
+              <a href="#" class="text-blue-400 hover:text-blue-300 text-lg"
+                >Más información ></a
+              >
+              <a href="#" class="text-blue-400 hover:text-blue-300 text-lg"
+                >Comprar ></a
+              >
+            </div>
+          </div>
+          <div class="flex justify-center">
+            <img
+              src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/airpods-pro-2-hero-select-202409?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1723667418319"
+              alt="AirPods Pro"
+              class="w-full max-w-md"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 py-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+          <div>
+            <h4 class="font-semibold text-lg mb-4">Comprar y aprender</h4>
+            <ul class="space-y-2 footer-links text-gray-600">
+              <li><a href="#" class="hover:text-gray-900">Tienda</a></li>
+              <li><a href="#" class="hover:text-gray-900">Mac</a></li>
+              <li><a href="#" class="hover:text-gray-900">iPad</a></li>
+              <li><a href="#" class="hover:text-gray-900">iPhone</a></li>
+              <li><a href="#" class="hover:text-gray-900">Watch</a></li>
+              <li><a href="#" class="hover:text-gray-900">AirPods</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-semibold text-lg mb-4">Servicios</h4>
+            <ul class="space-y-2 footer-links text-gray-600">
+              <li><a href="#" class="hover:text-gray-900">Apple Music</a></li>
+              <li><a href="#" class="hover:text-gray-900">Apple TV+</a></li>
+              <li>
+                <a href="#" class="hover:text-gray-900">Apple Fitness+</a>
+              </li>
+              <li><a href="#" class="hover:text-gray-900">Apple News+</a></li>
+              <li><a href="#" class="hover:text-gray-900">Apple Arcade</a></li>
+              <li><a href="#" class="hover:text-gray-900">iCloud</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-semibold text-lg mb-4">Cuenta de Apple</h4>
+            <ul class="space-y-2 footer-links text-gray-600">
+              <li>
+                <a href="#" class="hover:text-gray-900"
+                  >Gestionar tu ID de Apple</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-gray-900"
+                  >Cuenta de Apple Store</a
+                >
+              </li>
+              <li><a href="#" class="hover:text-gray-900">iCloud.com</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-semibold text-lg mb-4">Acerca de Apple</h4>
+            <ul class="space-y-2 footer-links text-gray-600">
+              <li><a href="#" class="hover:text-gray-900">Newsroom</a></li>
+              <li>
+                <a href="#" class="hover:text-gray-900">Directivos de Apple</a>
+              </li>
+              <li><a href="#" class="hover:text-gray-900">Empleo</a></li>
+              <li><a href="#" class="hover:text-gray-900">Inversores</a></li>
+              <li>
+                <a href="#" class="hover:text-gray-900">Ética y cumplimiento</a>
+              </li>
+              <li><a href="#" class="hover:text-gray-900">Eventos</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pt-8 border-t border-gray-300 text-sm text-gray-600">
+          <p class="mb-4">
+            Copyright © 2023 Apple Inc. Todos los derechos reservados.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="#" class="hover:text-gray-900">Política de privacidad</a>
+            <a href="#" class="hover:text-gray-900">Uso de cookies</a>
+            <a href="#" class="hover:text-gray-900">Condiciones de uso</a>
+            <a href="#" class="hover:text-gray-900">Ventas y reembolsos</a>
+            <a href="#" class="hover:text-gray-900">Avisos legales</a>
+            <a href="#" class="hover:text-gray-900">Mapa del sitio</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Menú móvil
+      document
+        .getElementById("mobile-menu-button")
+        .addEventListener("click", function () {
+          document.getElementById("mobile-menu").classList.remove("hidden");
+        });
+
+      document
+        .getElementById("close-mobile-menu")
+        .addEventListener("click", function () {
+          document.getElementById("mobile-menu").classList.add("hidden");
+        });
+
+      // Efecto de scroll en la navegación
+      window.addEventListener("scroll", function () {
+        const nav = document.querySelector("nav");
+        if (window.scrollY > 50) {
+          nav.classList.add("bg-black", "bg-opacity-90");
+        } else {
+          nav.classList.remove("bg-black", "bg-opacity-90");
+        }
+      });
+
+      // Animación de productos al hacer scroll
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver(function (entries) {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = "translateY(0)";
+          }
+        });
+      }, observerOptions);
+
+      // Aplicar animación a las tarjetas de productos
+      document.querySelectorAll(".product-card").forEach((card) => {
+        card.style.opacity = 0;
+        card.style.transform = "translateY(20px)";
+        card.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+        observer.observe(card);
+      });
+    </script>
+  </body>
+</html>
