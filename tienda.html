@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apple Store - Comprar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        scroll-behavior: smooth;
+      }
+
+      .nav-blur {
+        backdrop-filter: saturate(180%) blur(20px);
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      .store-hero {
+        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+      }
+
+      .category-card {
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .category-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .category-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          45deg,
+          rgba(0, 0, 0, 0.1),
+          rgba(0, 0, 0, 0.05)
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .category-card:hover::before {
+        opacity: 1;
+      }
+
+      .product-card {
+        transition: all 0.3s ease;
+        border: 1px solid #e5e5e7;
+      }
+
+      .product-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .filter-section {
+        transition: all 0.3s ease;
+      }
+
+      .cart-notification {
+        animation: slideIn 0.3s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      .cart-badge {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-white text-gray-900">
+    <!-- Navegación -->
+    <nav class="nav-blur fixed w-full z-50 py-3">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center space-x-6">
+            <a href="index.html" class="text-white text-xl font-semibold">
+              <i class="fab fa-apple"></i>
+            </a>
+            <a href="./tienda.html" class="text-white text-sm font-medium"
+              >Tienda</a
+            >
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white text-sm hidden md:block"
+              >Mac</a
+            >
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white text-sm hidden md:block"
+              >iPad</a
+            >
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white text-sm hidden md:block"
+              >iPhone</a
+            >
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white text-sm hidden md:block"
+              >Watch</a
+            >
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white text-sm hidden md:block"
+              >AirPods</a
+            >
+            <a
+              href="#"
+              class="text-gray-300 hover:text-white text-sm hidden md:block"
+              >Accesorios</a
+            >
+          </div>
+          <div class="flex items-center space-x-4">
+            <a href="#" class="text-gray-300 hover:text-white">
+              <i class="fas fa-search"></i>
+            </a>
+            <div class="relative">
+              <button
+                id="cart-button"
+                class="text-gray-300 hover:text-white relative"
+              >
+                <i class="fas fa-shopping-bag"></i>
+                <span
+                  id="cart-count"
+                  class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center hidden"
+                  >0</span
+                >
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Carrito lateral -->
+    <div
+      id="cart-sidebar"
+      class="fixed top-0 right-0 w-96 h-full bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300"
+    >
+      <div class="p-6 h-full flex flex-col">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold">Tu Carrito</h2>
+          <button id="close-cart" class="text-gray-500 hover:text-gray-700">
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+        <div id="cart-items" class="flex-1 overflow-y-auto mb-4">
+          <!-- Los productos del carrito se agregarán aquí dinámicamente -->
+          <div class="text-center text-gray-500 py-8">
+            <i class="fas fa-shopping-bag text-4xl mb-4"></i>
+            <p>Tu carrito está vacío</p>
+          </div>
+        </div>
+        <div class="border-t pt-4">
+          <div class="flex justify-between items-center mb-4">
+            <span class="text-lg font-semibold">Total:</span>
+            <span id="cart-total" class="text-xl font-bold">$0.00</span>
+          </div>
+          <button
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition-colors"
+          >
+            Proceder al Pago
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overlay para carrito -->
+    <div
+      id="cart-overlay"
+      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"
+    ></div>
+
+    <!-- Hero Section de Tienda -->
+    <section class="store-hero text-white pt-24 pb-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <h1 class="text-5xl md:text-6xl font-bold mb-6">Apple Store</h1>
+          <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Descubre la innovación. Compra los últimos productos Apple con envío
+            rápido y gratuito.
+          </p>
+          <div class="flex justify-center space-x-4">
+            <a
+              href="#productos"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full text-lg font-semibold transition-colors"
+            >
+              Ver Productos
+            </a>
+            <a
+              href="#ofertas"
+              class="border border-white hover:bg-white hover:text-black px-8 py-3 rounded-full text-lg font-semibold transition-colors"
+            >
+              Ofertas Especiales
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categorías -->
+    <section class="py-12 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-center mb-12">Categorías</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <a
+            href="#iphone"
+            class="category-card bg-white rounded-xl p-6 text-center shadow-md cursor-pointer"
+          >
+            <div
+              class="w-16 h-16 bg-gradient-to-br from-gray-300 to-gray-500 rounded-full flex items-center justify-center mx-auto mb-3"
+            >
+              <i class="fas fa-mobile-alt text-white text-2xl"></i>
+            </div>
+            <span class="font-semibold">iPhone</span>
+          </a>
+
+          <a
+            href="#mac"
+            class="category-card bg-white rounded-xl p-6 text-center shadow-md cursor-pointer"
+          >
+            <div
+              class="w-16 h-16 bg-gradient-to-br from-gray-400 to-gray-700 rounded-full flex items-center justify-center mx-auto mb-3"
+            >
+              <i class="fas fa-laptop text-white text-2xl"></i>
+            </div>
+            <span class="font-semibold">Mac</span>
+          </a>
+
+          <a
+            href="#ipad"
+            class="category-card bg-white rounded-xl p-6 text-center shadow-md cursor-pointer"
+          >
+            <div
+              class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-3"
+            >
+              <i class="fas fa-tablet-alt text-white text-2xl"></i>
+            </div>
+            <span class="font-semibold">iPad</span>
+          </a>
+
+          <a
+            href="#watch"
+            class="category-card bg-white rounded-xl p-6 text-center shadow-md cursor-pointer"
+          >
+            <div
+              class="w-16 h-16 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center mx-auto mb-3"
+            >
+              <i class="fas fa-clock text-white text-2xl"></i>
+            </div>
+            <span class="font-semibold">Watch</span>
+          </a>
+
+          <a
+            href="#airpods"
+            class="category-card bg-white rounded-xl p-6 text-center shadow-md cursor-pointer"
+          >
+            <div
+              class="w-16 h-16 bg-gradient-to-br from-white to-gray-300 rounded-full flex items-center justify-center mx-auto mb-3"
+            >
+              <i class="fas fa-headphones text-gray-600 text-2xl"></i>
+            </div>
+            <span class="font-semibold">AirPods</span>
+          </a>
+
+          <a
+            href="#accesorios"
+            class="category-card bg-white rounded-xl p-6 text-center shadow-md cursor-pointer"
+          >
+            <div
+              class="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-3"
+            >
+              <i class="fas fa-magic text-white text-2xl"></i>
+            </div>
+            <span class="font-semibold">Accesorios</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filtros y Búsqueda -->
+    <section class="py-8 bg-white border-b">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+          class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
+        >
+          <div class="flex items-center space-x-4">
+            <button
+              id="filter-toggle"
+              class="flex items-center space-x-2 text-gray-700 hover:text-gray-900"
+            >
+              <i class="fas fa-filter"></i>
+              <span>Filtrar</span>
+            </button>
+            <div class="relative">
+              <input
+                type="text"
+                placeholder="Buscar productos..."
+                class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <select
+              class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option>Ordenar por: Destacados</option>
+              <option>Precio: Menor a Mayor</option>
+              <option>Precio: Mayor a Menor</option>
+              <option>Nombre A-Z</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Filtros expandibles -->
+        <div id="filter-section" class="filter-section mt-6 hidden">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div>
+              <h4 class="font-semibold mb-3">Categoría</h4>
+              <div class="space-y-2">
+                <label class="flex items-center">
+                  <input type="checkbox" class="rounded text-blue-600" /> iPhone
+                </label>
+                <label class="flex items-center">
+                  <input type="checkbox" class="rounded text-blue-600" /> Mac
+                </label>
+                <label class="flex items-center">
+                  <input type="checkbox" class="rounded text-blue-600" /> iPad
+                </label>
+                <label class="flex items-center">
+                  <input type="checkbox" class="rounded text-blue-600" /> Watch
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold mb-3">Precio</h4>
+              <div class="space-y-2">
+                <label class="flex items-center">
+                  <input type="radio" name="price" class="text-blue-600" />
+                  Menos de $500
+                </label>
+                <label class="flex items-center">
+                  <input type="radio" name="price" class="text-blue-600" /> $500
+                  - $1000
+                </label>
+                <label class="flex items-center">
+                  <input type="radio" name="price" class="text-blue-600" />
+                  $1000 - $2000
+                </label>
+                <label class="flex items-center">
+                  <input type="radio" name="price" class="text-blue-600" /> Más
+                  de $2000
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold mb-3">Color</h4>
+              <div class="flex space-x-2">
+                <div
+                  class="w-6 h-6 bg-gray-800 rounded-full cursor-pointer border-2 border-transparent hover:border-gray-400"
+                ></div>
+                <div
+                  class="w-6 h-6 bg-gray-400 rounded-full cursor-pointer border-2 border-transparent hover:border-gray-400"
+                ></div>
+                <div
+                  class="w-6 h-6 bg-blue-500 rounded-full cursor-pointer border-2 border-transparent hover:border-gray-400"
+                ></div>
+                <div
+                  class="w-6 h-6 bg-red-500 rounded-full cursor-pointer border-2 border-transparent hover:border-gray-400"
+                ></div>
+                <div
+                  class="w-6 h-6 bg-green-500 rounded-full cursor-pointer border-2 border-transparent hover:border-gray-400"
+                ></div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold mb-3">Características</h4>
+              <div class="space-y-2">
+                <label class="flex items-center">
+                  <input type="checkbox" class="rounded text-blue-600" /> Envío
+                  Gratis
+                </label>
+                <label class="flex items-center">
+                  <input type="checkbox" class="rounded text-blue-600" /> En
+                  Oferta
+                </label>
+                <label class="flex items-center">
+                  <input type="checkbox" class="rounded text-blue-600" /> Nuevo
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Productos -->
+    <section id="productos" class="py-16 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-center mb-12">
+          Todos los Productos
+        </h2>
+
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+          id="products-grid"
+        >
+          <!-- Los productos se cargarán dinámicamente aquí -->
+        </div>
+
+        <!-- Paginación -->
+        <div class="flex justify-center mt-12">
+          <div class="flex space-x-2">
+            <button
+              class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100"
+            >
+              Anterior
+            </button>
+            <button class="px-4 py-2 bg-blue-600 text-white rounded-lg">
+              1
+            </button>
+            <button
+              class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100"
+            >
+              2
+            </button>
+            <button
+              class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100"
+            >
+              3
+            </button>
+            <button
+              class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100"
+            >
+              Siguiente
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ofertas Especiales -->
+    <section id="ofertas" class="py-16 bg-black text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold mb-4">Ofertas Especiales</h2>
+          <p class="text-xl text-gray-300">
+            Ahorra en productos seleccionados por tiempo limitado
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div
+            class="bg-gray-900 rounded-2xl p-6 text-center relative overflow-hidden"
+          >
+            <div
+              class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-semibold"
+            >
+              -20%
+            </div>
+            <img
+              src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/refurb-iphone-13-pro-graphite-2023?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1679072989055"
+              alt="iPhone 13 Pro"
+              class="w-48 h-48 object-contain mx-auto mb-4"
+            />
+            <h3 class="text-xl font-semibold mb-2">iPhone 13 Pro</h3>
+            <p class="text-gray-400 mb-4">Renovado - Como nuevo</p>
+            <div class="flex justify-center items-center space-x-2 mb-4">
+              <span class="text-2xl font-bold">$799</span>
+              <span class="text-lg text-gray-400 line-through">$999</span>
+            </div>
+            <button
+              class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors add-to-cart"
+              data-product="iPhone 13 Pro"
+              data-price="799"
+            >
+              Agregar al Carrito
+            </button>
+          </div>
+
+          <div
+            class="bg-gray-900 rounded-2xl p-6 text-center relative overflow-hidden"
+          >
+            <div
+              class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-semibold"
+            >
+              -15%
+            </div>
+            <img
+              src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/refurb-macbook-air-m1-space-gray-202010?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1634146264000"
+              alt="MacBook Air M1"
+              class="w-48 h-48 object-contain mx-auto mb-4"
+            />
+            <h3 class="text-xl font-semibold mb-2">MacBook Air M1</h3>
+            <p class="text-gray-400 mb-4">Renovado - Excelente estado</p>
+            <div class="flex justify-center items-center space-x-2 mb-4">
+              <span class="text-2xl font-bold">$849</span>
+              <span class="text-lg text-gray-400 line-through">$999</span>
+            </div>
+            <button
+              class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors add-to-cart"
+              data-product="MacBook Air M1"
+              data-price="849"
+            >
+              Agregar al Carrito
+            </button>
+          </div>
+
+          <div
+            class="bg-gray-900 rounded-2xl p-6 text-center relative overflow-hidden"
+          >
+            <div
+              class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-semibold"
+            >
+              -25%
+            </div>
+            <img
+              src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/refurb-airpods-pro-2nd-gen-2023?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1679072988686"
+              alt="AirPods Pro"
+              class="w-48 h-48 object-contain mx-auto mb-4"
+            />
+            <h3 class="text-xl font-semibold mb-2">AirPods Pro (2da gen)</h3>
+            <p class="text-gray-400 mb-4">Renovado - Garantía Apple</p>
+            <div class="flex justify-center items-center space-x-2 mb-4">
+              <span class="text-2xl font-bold">$199</span>
+              <span class="text-lg text-gray-400 line-through">$249</span>
+            </div>
+            <button
+              class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors add-to-cart"
+              data-product="AirPods Pro (2da gen)"
+              data-price="199"
+            >
+              Agregar al Carrito
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Servicios de Tienda -->
+    <section class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div
+              class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-shipping-fast text-blue-600 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Envío Gratis</h3>
+            <p class="text-gray-600">
+              Envío gratuito en todos los pedidos superiores a $50
+            </p>
+          </div>
+
+          <div class="text-center">
+            <div
+              class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-shield-alt text-green-600 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Garantía Apple</h3>
+            <p class="text-gray-600">
+              Un año de garantía limitada en todos los productos
+            </p>
+          </div>
+
+          <div class="text-center">
+            <div
+              class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-undo-alt text-purple-600 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Devoluciones</h3>
+            <p class="text-gray-600">
+              30 días para devoluciones y cambios sin complicaciones
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notificación de carrito -->
+    <div
+      id="cart-notification"
+      class="fixed top-20 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg z-50 hidden cart-notification"
+    >
+      <div class="flex items-center space-x-3">
+        <i class="fas fa-check-circle"></i>
+        <span>Producto agregado al carrito</span>
+      </div>
+    </div>
+
+    <script>
+      // Datos de productos
+      const products = [
+        {
+          id: 1,
+          name: "iPhone 15 Pro",
+          price: 999,
+          category: "iphone",
+          image:
+            "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-7inch-naturaltitanium?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1692846359318",
+          description: "Titanio. Tan fuerte como ligero.",
+        },
+        {
+          id: 2,
+          name: "iPhone 15",
+          price: 799,
+          category: "iphone",
+          image:
+            "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-finish-select-202309-6-1inch-pink?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1692846357398",
+          description: "Increíblemente potente.",
+        },
+        {
+          id: 3,
+          name: 'MacBook Pro 14"',
+          price: 1999,
+          category: "mac",
+          image:
+            "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp14-silver-select-202301?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1671304673222",
+          description: "Mind-blowing. Head-turning.",
+        },
+        {
+          id: 4,
+          name: 'MacBook Air 15"',
+          price: 1299,
+          category: "mac",
+          image:
+            "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbook-air-15-midnight-select-202306?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1683844879842",
+          description: "Impresionantemente grande. Increíblemente delgado.",
+        },
+        {
+          id: 5,
+          name: "iPad Pro",
+          price: 1099,
+          category: "ipad",
+          image:
+            "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-finish-select-202212-12-9inch-spacegray-wifi_FMT_WHH?wid=1280&hei=720&fmt=p-jpg&qlt=95&.v=1671143311433",
+          description: "Superpotenciado con el chip M2.",
+        },
+        {
+          id: 6,
+          name: "Apple Watch Series 9",
+          price: 399,
+          category: "watch",
+          image:
+            "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-card-40-s9-202309?wid=680&hei=656&fmt=p-jpg&qlt=95&.v=1693501137028",
+          description: "Brillante. Y muy poderoso.",
+        },
+        {
+          id: 7,
+          name: "AirPods Pro (2da generación)",
+          price: 249,
+          category: "airpods",
+          image:
+            "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MTJV3?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1694014871985",
+          description: "Cancelación activa de ruido. Sonido de calidad.",
+        },
+        {
+          id: 8,
+          name: "AirPods (3ra generación)",
+          price: 179,
+          category: "airpods",
+          image:
+            "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MME73?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1632861342000",
+          description: "Sonido mágico. Como nada.",
+        },
+      ];
+
+      // Estado del carrito
+      let cart = [];
+      let cartTotal = 0;
+
+      // Elementos del DOM
+      const productsGrid = document.getElementById("products-grid");
+      const cartButton = document.getElementById("cart-button");
+      const cartSidebar = document.getElementById("cart-sidebar");
+      const closeCart = document.getElementById("close-cart");
+      const cartOverlay = document.getElementById("cart-overlay");
+      const cartCount = document.getElementById("cart-count");
+      const cartItems = document.getElementById("cart-items");
+      const cartTotalElement = document.getElementById("cart-total");
+      const cartNotification = document.getElementById("cart-notification");
+      const filterToggle = document.getElementById("filter-toggle");
+      const filterSection = document.getElementById("filter-section");
+
+      // Funciones
+      function renderProducts() {
+        productsGrid.innerHTML = "";
+        products.forEach((product) => {
+          const productCard = document.createElement("div");
+          productCard.className = "product-card bg-white rounded-2xl p-6";
+          productCard.innerHTML = `
+                    <div class="flex justify-center mb-4">
+                        <img src="${product.image}" alt="${product.name}" class="h-40 object-contain">
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">${product.name}</h3>
+                    <p class="text-gray-600 mb-4">${product.description}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold">$${product.price}</span>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors add-to-cart" 
+                                data-product="${product.name}" 
+                                data-price="${product.price}">
+                            Agregar
+                        </button>
+                    </div>
+                `;
+          productsGrid.appendChild(productCard);
+        });
+      }
+
+      function addToCart(productName, productPrice) {
+        const existingItem = cart.find((item) => item.name === productName);
+
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          cart.push({
+            name: productName,
+            price: productPrice,
+            quantity: 1,
+          });
+        }
+
+        updateCart();
+        showCartNotification();
+      }
+
+      function updateCart() {
+        // Actualizar contador
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartCount.textContent = totalItems;
+        cartCount.classList.toggle("hidden", totalItems === 0);
+
+        // Actualizar items del carrito
+        cartItems.innerHTML = "";
+        if (cart.length === 0) {
+          cartItems.innerHTML = `
+                    <div class="text-center text-gray-500 py-8">
+                        <i class="fas fa-shopping-bag text-4xl mb-4"></i>
+                        <p>Tu carrito está vacío</p>
+                    </div>
+                `;
+        } else {
+          cart.forEach((item) => {
+            const cartItem = document.createElement("div");
+            cartItem.className =
+              "flex justify-between items-center border-b pb-4 mb-4";
+            cartItem.innerHTML = `
+                        <div>
+                            <p class="font-semibold">${item.name}</p>
+                            <p class="text-gray-600">$${item.price} x ${item.quantity}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="text-red-500 remove-item" data-product="${item.name}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+            cartItems.appendChild(cartItem);
+          });
+        }
+
+        // Actualizar total
+        cartTotal = cart.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0
+        );
+        cartTotalElement.textContent = `$${cartTotal.toFixed(2)}`;
+      }
+
+      function showCartNotification() {
+        cartNotification.classList.remove("hidden");
+        setTimeout(() => {
+          cartNotification.classList.add("hidden");
+        }, 3000);
+      }
+
+      function removeFromCart(productName) {
+        cart = cart.filter((item) => item.name !== productName);
+        updateCart();
+      }
+
+      // Event Listeners
+      document.addEventListener("DOMContentLoaded", () => {
+        renderProducts();
+
+        // Agregar al carrito
+        document.addEventListener("click", (e) => {
+          if (
+            e.target.classList.contains("add-to-cart") ||
+            e.target.closest(".add-to-cart")
+          ) {
+            const button = e.target.classList.contains("add-to-cart")
+              ? e.target
+              : e.target.closest(".add-to-cart");
+            const productName = button.dataset.product;
+            const productPrice = parseFloat(button.dataset.price);
+            addToCart(productName, productPrice);
+          }
+
+          // Remover del carrito
+          if (
+            e.target.classList.contains("remove-item") ||
+            e.target.closest(".remove-item")
+          ) {
+            const button = e.target.classList.contains("remove-item")
+              ? e.target
+              : e.target.closest(".remove-item");
+            const productName = button.dataset.product;
+            removeFromCart(productName);
+          }
+        });
+
+        // Carrito sidebar
+        cartButton.addEventListener("click", () => {
+          cartSidebar.classList.remove("translate-x-full");
+          cartOverlay.classList.remove("hidden");
+        });
+
+        closeCart.addEventListener("click", () => {
+          cartSidebar.classList.add("translate-x-full");
+          cartOverlay.classList.add("hidden");
+        });
+
+        cartOverlay.addEventListener("click", () => {
+          cartSidebar.classList.add("translate-x-full");
+          cartOverlay.classList.add("hidden");
+        });
+
+        // Filtros
+        filterToggle.addEventListener("click", () => {
+          filterSection.classList.toggle("hidden");
+        });
+
+        // Smooth scroll para categorías
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute("href"));
+            if (target) {
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
