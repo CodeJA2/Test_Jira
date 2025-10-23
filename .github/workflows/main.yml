@@ -1,0 +1,14 @@
+# En GitHub Actions (.github/workflows/jira-sync.yml)
+name: Jira Sync
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+jobs:
+  update-jira:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: atlassian/gajira-update@v3
+        with:
+          issue: ${{ contains(github.event.pull_request.head.ref, 'TR-') }}
+          status: "In Review"
